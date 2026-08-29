@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monipack. Disposable and food packaging, Nizwa, Oman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Monipack Logo Colors */
+    --rind:#e12229;
+    --sage:#c6262c;
+    --flesh:#43020c;
+    --salmon:#ffb3b5;
+
+    --bg:#FFFFFF;
+    --bg-soft:#F6F8F5;
+    --surface:#FFFFFF;
+    --ink:#1C231D;
+    --ink-dim:#5B655C;
+    --line:#E4E9E2;
+
+    --accent: var(--rind);
+    --accent-2: var(--flesh);
+    --accent-3: var(--sage);
+    --accent-4: var(--salmon);
+
+    --radius: 16px;
+    --ease: cubic-bezier(.22,.68,0,1);
+  }
+
+  
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family:'DM Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    transition: background .4s var(--ease), color .4s var(--ease);
+  }
+  h1,h2,h3{font-family:'Playfair Display', serif; font-weight:600; letter-spacing:-0.01em;}
+  a{color:inherit;}
+  img{display:block; max-width:100%;}
+  button{font-family:inherit;}
+
+  /* ---------- IMAGE PLACEHOLDER ---------- */
+  .img-slot{
+    position:relative;
+    background: repeating-linear-gradient(135deg, var(--bg-soft), var(--bg-soft) 10px, var(--line) 10px, var(--line) 11px);
+    border:1px dashed var(--line);
+    border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    color: var(--ink-dim);
+    font-size:0.72rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;
+    text-align:center; padding:10px;
+    overflow:hidden;
+  }
+  .img-slot span{ position:relative; z-index:2; background: var(--bg); padding:4px 8px; border-radius:6px; opacity:0.9;}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 16px clamp(20px,5vw,64px);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Playfair Display', serif; font-size:1.3rem; font-weight:700;
+  }
+  .brand .mark{
+    height:56px; width:auto; display:flex; align-items:center;
+  }
+  .brand .mark img{ height:100%; width:auto; object-fit:contain; }
+  
+
+  .nav-links{ display:flex; gap:26px; align-items:center; }
+  .nav-links button.navlink{
+    background:none; border:none; cursor:pointer;
+    color: var(--ink-dim); font-size:0.86rem; font-weight:600;
+    transition: color .2s; padding:0;
+  }
+  .nav-links button.navlink:hover, .nav-links button.navlink.current{ color: var(--accent); }
+
+  .nav-right{ display:flex; align-items:center; gap:14px; }
+
+  .theme-toggle{
+    display:flex; align-items:center; gap:6px;
+    border:1px solid var(--line); border-radius:999px; padding:4px;
+    background: var(--bg-soft); cursor:pointer;
+  }
+  .theme-toggle button{
+    border:none; background:transparent; cursor:pointer;
+    width:32px; height:32px; border-radius:999px;
+    display:grid; place-items:center; color: var(--ink-dim);
+    transition: background .3s, color .3s;
+  }
+  .theme-toggle button.active{ background: var(--accent); color:#fff; }
+  .theme-toggle svg{ width:16px; height:16px; }
+
+  .nav-cta{
+    background: var(--accent); color:#fff; font-weight:700; font-size:0.84rem;
+    padding:10px 20px; border-radius:999px; border:none; cursor:pointer;
+    transition: transform .3s var(--ease), filter .3s;
+  }
+  .nav-cta:hover{ transform: translateY(-2px); filter:brightness(1.08); }
+
+  .mode-toggle{
+    position:relative; display:flex; align-items:center;
+    background: var(--bg-soft); border:1px solid var(--line);
+    border-radius:999px; padding:4px; gap:2px;
+  }
+  .mode-toggle button{
+    position:relative; z-index:2; border:none; background:transparent;
+    color: var(--ink-dim); font-weight:600; font-size:0.78rem;
+    padding:8px 15px; border-radius:999px; cursor:pointer;
+    transition: color .35s var(--ease); white-space:nowrap;
+  }
+  .mode-toggle button.active{ color:#fff; }
+  .mode-toggle .pill{
+    position:absolute; top:4px; bottom:4px; left:4px;
+    width: calc(50% - 4px); border-radius:999px;
+    background: var(--accent);
+    transition: transform .45s var(--ease);
+    z-index:1;
+  }
+  [data-mode="b2c"] .pill{ transform: translateX(100%); background: var(--accent-4); }
+  [data-mode="b2c"] .mode-toggle button.active{ color: #5B2C29; }
+
+  .hamburger{ display:none; }
+  @media (max-width: 980px){
+    .nav-links{ display:none; }
+    .hamburger{
+      display:grid; place-items:center; width:38px; height:38px;
+      border:1px solid var(--line); border-radius:10px; background: var(--bg-soft); cursor:pointer;
+    }
+  }
+  .mobile-menu{
+    position:fixed; top:64px; left:0; right:0; z-index:59;
+    background: var(--bg); border-bottom:1px solid var(--line);
+    padding: 16px clamp(20px,5vw,64px);
+    display:flex; flex-direction:column; gap:14px;
+    transform: translateY(-120%); transition: transform .35s var(--ease);
+  }
+  .mobile-menu.open{ transform: translateY(0); }
+  .mobile-menu button{
+    background:none; border:none; text-align:left; font-size:0.95rem; font-weight:600;
+    color: var(--ink); padding:10px 0; border-bottom:1px solid var(--line); cursor:pointer;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; padding: 150px clamp(20px,5vw,64px) 80px;
+    display:grid; grid-template-columns: 1.1fr 0.9fr; gap:48px; align-items:center;
+    background: var(--bg-soft);
+    border-bottom:1px solid var(--line);
+  }
+  @media (max-width: 900px){ .hero{ grid-template-columns:1fr; padding-top:130px; } }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:0.76rem; font-weight:700; letter-spacing:0.13em; text-transform:uppercase;
+    color: var(--accent); margin-bottom:20px;
+  }
+  .eyebrow::before{ content:''; width:24px; height:2px; background: var(--accent); border-radius:2px;}
+  .hero h1{
+    font-size: clamp(2.2rem, 4.4vw, 3.6rem); line-height:1.08; margin-bottom:20px;
+  }
+  .hero h1 em{ font-style:italic; color: var(--accent); }
+  .hero h1 .serif-part{ font-family:'Playfair Display', serif; }
+  .hero h1 .sans-part{
+    display:block; font-family:'DM Sans', sans-serif; font-weight:600;
+    font-size:0.42em; letter-spacing:0.01em; margin-top:10px; color: var(--ink-dim);
+  }
+  .hero h1 .sans-part b{ color: var(--accent-2); font-weight:700; }
+  .hero h1 .sans-part i{ font-style:normal; color: var(--accent-3); font-weight:700; }
+  .hero h1 .sans-part u{ text-decoration:none; color: var(--accent); font-weight:700; }
+  .hero p{ font-size:1.05rem; color: var(--ink-dim); max-width:520px; margin-bottom:30px; line-height:1.65;}
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:34px; }
+  .btn-primary, .btn-secondary{
+    font-weight:700; font-size:0.9rem; padding:14px 26px; border-radius:12px;
+    cursor:pointer; border:1px solid transparent; transition: all .3s var(--ease);
+  }
+  .btn-primary{ background: var(--accent); color:#fff; }
+  .btn-primary:hover{ transform: translateY(-2px); filter:brightness(1.06); }
+  .btn-secondary{ background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-secondary:hover{ border-color: var(--accent); color: var(--accent); }
+
+  .trust-row{ display:flex; gap:26px; flex-wrap:wrap; padding-top:20px; border-top:1px solid var(--line); }
+  .trust-row .stat b{ display:block; font-family:'Playfair Display'; font-size:1.4rem; }
+  .trust-row .stat span{ font-size:0.74rem; color: var(--ink-dim); }
+
+  .hero-visual .img-slot{ aspect-ratio: 4/3.4; width:100%; }
+
+  /* ---------- MARQUEE strip ---------- */
+  .strip{
+    display:flex; gap:0; border-bottom:1px solid var(--line); background: var(--bg);
+  }
+  .strip .item{
+    flex:1; display:flex; align-items:center; gap:10px; justify-content:center;
+    padding:16px 10px; font-size:0.82rem; font-weight:600; color: var(--ink-dim);
+    border-right:1px solid var(--line);
+  }
+  .strip .item:last-child{ border-right:none; }
+  .strip .item:nth-child(1) .dot{ background: var(--accent); }
+  .strip .item:nth-child(2) .dot{ background: var(--accent-2); }
+  .strip .item:nth-child(3) .dot{ background: var(--accent-3); }
+  .strip .item:nth-child(4) .dot{ background: var(--accent-4); }
+  .strip .dot{ width:6px; height:6px; border-radius:50%; }
+  @media (max-width:760px){ .strip{ flex-wrap:wrap; } .strip .item{ flex:1 1 50%; } }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding: 80px clamp(20px,5vw,64px); }
+  .section-head{ max-width:600px; margin-bottom:44px; }
+  .section-head .tag{ color: var(--accent); font-weight:700; font-size:0.76rem; text-transform:uppercase; letter-spacing:0.11em; }
+  .section-head h2{ font-size: clamp(1.7rem,3vw,2.4rem); margin-top:10px; }
+  .section-head p{ color: var(--ink-dim); margin-top:12px; font-size:0.98rem; line-height:1.6; }
+
+  /* categories */
+  .cat-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:18px; }
+  @media (max-width: 1000px){ .cat-grid{ grid-template-columns: repeat(2,1fr);} }
+  @media (max-width: 560px){ .cat-grid{ grid-template-columns: 1fr;} }
+  .cat-card{
+    border-radius:16px; overflow:hidden; border:1px solid var(--line);
+    background: var(--surface); cursor:pointer;
+    transition: transform .35s var(--ease), border-color .3s, box-shadow .3s;
+  }
+  .cat-card:hover{ transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 16px 30px -18px var(--accent); }
+  .cat-card .img-slot{ aspect-ratio: 4/3; border-radius:0; border-left:none; border-right:none; border-top:none; }
+  .cat-card .body{ padding:16px 18px 20px; }
+  .cat-card .num{ font-size:0.7rem; color: var(--accent-3); font-weight:700; }
+  .cat-card h4{ font-family:'Playfair Display'; font-size:1.08rem; margin-top:4px; }
+  .cat-card p{ font-size:0.8rem; color: var(--ink-dim); margin-top:4px; }
+
+  /* products */
+  .product-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap:18px; }
+  @media (max-width: 1000px){ .product-grid{ grid-template-columns: repeat(2,1fr);} }
+  @media (max-width: 560px){ .product-grid{ grid-template-columns: 1fr;} }
+  .product-card{
+    border:1px solid var(--line); border-radius:16px; overflow:hidden; background: var(--surface);
+    display:flex; flex-direction:column;
+  }
+  .product-card .img-slot{ aspect-ratio: 1/1; border-radius:0; border-left:none; border-right:none; border-top:none; }
+  .product-card .body{ padding:16px 18px; flex:1; display:flex; flex-direction:column; gap:6px; }
+  .product-card h4{ font-family:'Playfair Display'; font-size:1.02rem; }
+  .product-card .meta{ font-size:0.78rem; color: var(--ink-dim); }
+  .product-card .tier{ margin-top:auto; padding-top:10px; border-top:1px solid var(--line); font-size:0.76rem; color: var(--accent-2); font-weight:700; }
+  .filter-row{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px; }
+  .filter-chip{
+    border:1px solid var(--line); background: var(--bg-soft); color: var(--ink-dim);
+    padding:8px 16px; border-radius:999px; font-size:0.8rem; font-weight:600; cursor:pointer;
+    transition: all .25s;
+  }
+  .filter-chip.active{ background: var(--accent-3); color:#173322; border-color: var(--accent-3); }
+
+  /* tools */
+  .tools-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:20px; }
+  @media (max-width:900px){ .tools-grid{ grid-template-columns:1fr; } }
+  .tool-card{ background: var(--bg-soft); border:1px solid var(--line); border-radius:16px; padding:26px; }
+  .tool-card:nth-child(1) .icon{ background: var(--accent); }
+  .tool-card:nth-child(2) .icon{ background: var(--accent-2); }
+  .tool-card:nth-child(3) .icon{ background: var(--accent-3); color:#173322; }
+  .tool-card .icon{
+    width:40px; height:40px; border-radius:10px; margin-bottom:16px;
+    display:grid; place-items:center; font-weight:700; color:#fff; font-size:0.85rem;
+  }
+  .tool-card h4{ font-family:'Playfair Display'; font-size:1.1rem; margin-bottom:6px; }
+  .tool-card p{ font-size:0.85rem; color: var(--ink-dim); line-height:1.55; margin-bottom:14px; }
+
+  .csv-drop{
+    border:2px dashed var(--line); border-radius:12px; padding:20px; text-align:center;
+    font-size:0.8rem; color: var(--ink-dim); cursor:pointer; transition: border-color .25s;
+  }
+  .csv-drop.drag{ border-color: var(--accent); color: var(--accent); }
+  .csv-drop input{ display:none; }
+  #csvResult{ margin-top:10px; font-size:0.78rem; color: var(--accent); font-weight:600; min-height:1em; }
+
+  .quote-form{ display:flex; flex-direction:column; gap:10px; }
+  .quote-form select, .quote-form input{
+    padding:10px 12px; border-radius:8px; border:1px solid var(--line);
+    background: var(--bg); color: var(--ink); font-size:0.82rem; font-family:inherit;
+  }
+  .quote-form button{
+    margin-top:4px; padding:11px; border-radius:8px; border:none; background: var(--accent);
+    color:#fff; font-weight:700; font-size:0.82rem; cursor:pointer;
+  }
+  #quoteOut{
+    display:none; margin-top:12px; padding:12px; border-radius:10px; background: var(--surface);
+    border:1px solid var(--line); font-size:0.78rem; line-height:1.6;
+  }
+  #quoteOut b{ color: var(--accent); }
+
+  .price-tier{ margin-top:14px; display:flex; flex-direction:column; gap:6px; font-size:0.78rem; color: var(--ink-dim); }
+  .price-tier div{ display:flex; justify-content:space-between; padding:6px 10px; border-radius:8px; background: var(--surface); }
+  .price-tier div b{ color: var(--accent); }
+  .qty-controls{ display:flex; align-items:center; gap:10px; margin-top:10px; }
+  .qty-controls button{
+    width:30px; height:30px; border-radius:8px; border:1px solid var(--line); background: var(--surface);
+    cursor:pointer; font-weight:700; color: var(--ink);
+  }
+  .qty-controls span{ font-weight:700; min-width:24px; text-align:center; }
+  #discountLabel{ font-size:0.8rem; font-weight:700; color: var(--accent); margin-top:8px; }
+
+  /* who we serve */
+  .serve-grid{ display:grid; grid-template-columns: repeat(6,1fr); gap:14px; }
+  @media (max-width:900px){ .serve-grid{ grid-template-columns: repeat(3,1fr);} }
+  @media (max-width:560px){ .serve-grid{ grid-template-columns: repeat(2,1fr);} }
+  .serve-item{
+    border:1px solid var(--line); border-radius:14px; padding:18px 14px; text-align:center;
+    background: var(--bg-soft); font-size:0.82rem; font-weight:600;
+    border-top:3px solid var(--accent);
+  }
+  .serve-item:nth-child(4n+2){ border-top-color: var(--accent-2); }
+  .serve-item:nth-child(4n+3){ border-top-color: var(--accent-3); }
+  .serve-item:nth-child(4n+4){ border-top-color: var(--accent-4); }
+  .serve-item .img-slot{ aspect-ratio:1/1; margin-bottom:10px; }
+
+  /* about / vision */
+  .about-grid{ display:grid; grid-template-columns: 0.9fr 1.1fr; gap:48px; align-items:center; }
+  @media (max-width:900px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-grid .img-slot{ aspect-ratio:4/3.4; }
+  .about-grid p{ color: var(--ink-dim); line-height:1.7; margin-bottom:14px; font-size:0.98rem; }
+
+  /* contact */
+  .contact-wrap{ display:grid; grid-template-columns: 1fr 1fr; gap:40px; }
+  @media (max-width:900px){ .contact-wrap{ grid-template-columns:1fr; } }
+  .contact-form{ display:flex; flex-direction:column; gap:12px; }
+  .contact-form input, .contact-form textarea{
+    padding:12px 14px; border-radius:10px; border:1px solid var(--line);
+    background: var(--bg-soft); color: var(--ink); font-family:inherit; font-size:0.9rem;
+  }
+  .contact-form textarea{ min-height:120px; resize:vertical; }
+  .contact-form button{
+    padding:13px; border-radius:10px; border:none; background: var(--accent); color:#fff;
+    font-weight:700; cursor:pointer; font-size:0.9rem;
+  }
+  #contactStatus{ font-size:0.82rem; color: var(--accent); font-weight:600; display:none; }
+  .contact-info{ display:flex; flex-direction:column; gap:16px; }
+  .contact-info .row{ display:flex; gap:14px; align-items:flex-start; }
+  .contact-info .row .icon{
+    width:38px; height:38px; border-radius:10px; background: var(--bg-soft); border:1px solid var(--line);
+    display:grid; place-items:center; flex:none; color: var(--accent); font-weight:700; font-size:0.8rem;
+  }
+  .contact-info h4{ font-size:0.92rem; margin-bottom:2px; }
+  .contact-info span{ font-size:0.84rem; color: var(--ink-dim); line-height:1.5; }
+
+  footer{
+    padding: 40px clamp(20px,5vw,64px) 26px;
+    border-top:1px solid var(--line); background: var(--bg-soft);
+  }
+  .footer-grid{ display:grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap:30px; margin-bottom:30px; }
+  @media (max-width: 760px){ .footer-grid{ grid-template-columns: 1fr 1fr; } }
+  .footer-grid h5{ font-size:0.82rem; margin-bottom:12px; color: var(--ink); }
+  .footer-grid a{ display:block; font-size:0.82rem; color: var(--ink-dim); text-decoration:none; margin-bottom:8px; }
+  .footer-grid a:hover{ color: var(--accent); }
+  .footer-bottom{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    padding-top:20px; border-top:1px solid var(--line);
+    font-size:0.76rem; color: var(--ink-dim);
+  }
+
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform: translateX(-50%) translateY(140%);
+    background: var(--ink); color: var(--bg); padding:12px 22px; border-radius:999px;
+    font-size:0.84rem; font-weight:600; z-index:100; transition: transform .4s var(--ease);
+  }
+  .toast.show{ transform: translateX(-50%) translateY(0); }
+
+  ::selection{ background: var(--accent); color:#fff; }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1601662528567-526cd06f35a4?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: -2;
+    mix-blend-mode: multiply;
+  }
+  
+
+  /* --- Scroll Reveal Motion --- */
+  .scroll-reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+  .scroll-reveal.in-view { opacity: 1; transform: translateY(0); }
+  
+  /* --- Clip Path Reveal for Hero --- */
+  .hero-visual { clip-path: inset(15% 15% 15% 15%); transition: clip-path 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+  .hero-visual.in-view { clip-path: inset(0% 0% 0% 0%); }
+
+  /* --- Apple Style Dock --- */
+  .nav-links { display: flex; gap: 16px; align-items: center; align-items: flex-end; }
+  .nav-links button.navlink {
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), margin 0.2s cubic-bezier(0.25, 1, 0.5, 1), color 0.2s;
+    transform-origin: bottom center;
+    padding: 6px 12px;
+  }
+  .nav-links:hover button.navlink { transform: scale(0.9); opacity: 0.7; }
+  .nav-links button.navlink:hover { transform: scale(1.3) translateY(-2px); opacity: 1; margin: 0 8px; color: var(--accent); }
+
+  /* --- Border Trail --- */
+  @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  .border-trail-wrapper { position: relative; border-radius: 18px; padding: 1px; z-index: 1; background: var(--bg-soft); }
+  .border-trail-wrapper::before {
+    content: ''; position: absolute; inset: -1px; border-radius: inherit;
+    background: conic-gradient(from var(--angle), transparent 60%, var(--accent) 100%);
+    animation: border-trail-spin 4s linear infinite; z-index: -1;
+  }
+  @keyframes border-trail-spin { from { --angle: 0deg; } to { --angle: 360deg; } }
+  .border-trail-wrapper .tool-card { height: 100%; border: none; background: var(--bg); border-radius: 17px; }
+
+  /* --- Spotlight Hover --- */
+  .spotlight { position: relative; overflow: hidden; }
+  .spotlight::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(225, 34, 41, 0.12) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .spotlight:hover::before { opacity: 1; }
+  
+  /* --- Shared Background Hover (AnimatedCardBackgroundHover) --- */
+  .hover-bg-indicator {
+    position: absolute; background: var(--bg-soft); border-radius: 16px; border: 1px solid var(--line);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); pointer-events: none; z-index: 0; opacity: 0;
+  }
+  .cat-card, .product-card { position: relative; z-index: 1; background: transparent; border-color: transparent; }
+  .cat-card:hover, .product-card:hover { transform: translateY(-4px); box-shadow: none; border-color: transparent; }
+  .cat-grid, .product-grid { position: relative; z-index: 1; }
+
+  /* --- Infinite Slider --- */
+  .infinite-slider-wrap {
+    overflow: hidden; white-space: nowrap; width: 100%; position: relative;
+    padding: 20px 0; background: var(--bg); border-bottom: 1px solid var(--line);
+  }
+  .infinite-slider {
+    display: inline-block; animation: infinite-slide 30s linear infinite;
+  }
+  .infinite-slider-wrap:hover .infinite-slider { animation-duration: 10s; } /* Speed on hover */
+  .infinite-slider .item {
+    display: inline-flex; align-items: center; gap: 10px; padding: 0 40px;
+    font-size: 0.9rem; font-weight: 600; color: var(--ink-dim);
+  }
+  @keyframes infinite-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+
+  /* --- Custom Cursor --- */
+  body, a, button, input, select, textarea, label, .cat-card, .product-card { cursor: none !important; }
+  #cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 6px; height: 6px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100000;
+    will-change: transform;
+  }
+  #cursor-circle {
+    position: fixed;
+    top: 0; left: 0;
+    width: 24px; height: 24px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transition: width 0.2s cubic-bezier(.22,.68,0,1), height 0.2s cubic-bezier(.22,.68,0,1), background-color 0.2s cubic-bezier(.22,.68,0,1);
+    will-change: transform;
+  }
+</style>
+</head>
+<body data-mode="b2b">
+<div id="cursor-dot"></div>
+<div id="cursor-circle"></div>
+
+<nav class="nav">
+  <div class="brand">
+    <div class="mark"><img src="https://www.monipack.com/gallery_gen/1fcdde1763e767179df5c598beabde31_629x508.91818181818.png" alt="Monipack logo"></div>
+  </div>
+
+  <div class="nav-links">
+    <button class="navlink current" data-scroll="home">Home</button>
+    <button class="navlink" data-scroll="products">Products</button>
+    <button class="navlink" data-scroll="tools">Trade Tools</button>
+    <button class="navlink" data-scroll="about">About Us</button>
+    <button class="navlink" data-scroll="contact">Contact Us</button>
+  </div>
+
+  <div class="nav-right">
+    <div class="mode-toggle" id="modeToggle">
+      <div class="pill"></div>
+      <button data-set="b2b" class="active" type="button">Business</button>
+      <button data-set="b2c" type="button">Home Retail</button>
+    </div>
+
+    
+
+    <button class="nav-cta" data-scroll="tools" type="button">Get a Quote</button>
+    <button class="hamburger" id="hamburger" type="button" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button data-scroll="home">Home</button>
+  <button data-scroll="products">Products</button>
+  <button data-scroll="tools">Trade Tools</button>
+  <button data-scroll="about">About Us</button>
+  <button data-scroll="contact">Contact Us</button>
+</div>
+
+<header class="hero" id="home">
+  <div class="hero-copy">
+    <div class="eyebrow" id="eyebrowText">Nizwa, Oman. Established 2009</div>
+    <h1 id="heroHeading"><span class="serif-part">Packaging Solutions</span><span class="sans-part">for Every <b>Kitchen</b>, <i>Business</i>, and <u>Event</u>.</span></h1>
+    <p id="heroSub">Morooj Nizwa International Company LLC, trading as Monipack, is a regional manufacturer and distributor of disposable food packaging, serving hotels, hospitals and food chains across Oman with more than 1000 products.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" type="button" id="primaryCta" data-scroll="tools">Request Trade Pricing</button>
+      <button class="btn-secondary" type="button" id="secondaryCta" data-scroll="products">Browse Products</button>
+    </div>
+    <div class="trust-row">
+      <div class="stat"><b class="count-up" data-target="2009">0</b><span>Company established</span></div>
+      <div class="stat"><b class="count-up" data-target="1000" data-suffix="+">0</b><span>Products distributed</span></div>
+      <div class="stat"><b>24/7</b><span>Customer support</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <img src="https://images.unsplash.com/photo-1620311242371-331da2944b7d?q=80&w=1600&auto=format&fit=crop" alt="Monipack packaging solutions" style="width: 100%; height: auto; aspect-ratio: 4/3.4; object-fit: cover; border-radius: 12px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);">
+  </div>
+</header>
+
+<div class="infinite-slider-wrap">
+  <div class="infinite-slider">
+    <div class="item"><span class="dot" style="background:var(--accent)"></span>World Wide Shipping</div>
+    <div class="item"><span class="dot" style="background:var(--accent-2)"></span>Genuine and Certified Quality</div>
+    <div class="item"><span class="dot" style="background:var(--accent-3)"></span>24/7 Customer Support</div>
+    <div class="item"><span class="dot" style="background:var(--accent-4)"></span>Manufacturing Facilities in Oman</div>
+    <div class="item"><span class="dot" style="background:var(--accent)"></span>World Wide Shipping</div>
+    <div class="item"><span class="dot" style="background:var(--accent-2)"></span>Genuine and Certified Quality</div>
+    <div class="item"><span class="dot" style="background:var(--accent-3)"></span>24/7 Customer Support</div>
+    <div class="item"><span class="dot" style="background:var(--accent-4)"></span>Manufacturing Facilities in Oman</div>
+  </div>
+</div>
+
+<section id="cats">
+  <div class="section-head scroll-reveal">
+    <div class="tag" id="catsTag">Industry Shopping</div>
+    <h2 id="catsHeading">Shop by who you serve</h2>
+    <p id="catsSub">Monipack supplies hotels, hospitals, food chains, bakeries and restaurants, catering services, the meat, poultry and fish industry, schools, offices, supermarkets, traders and wholesalers, government departments, international franchises, theme parks and international airlines.</p>
+  </div>
+  <div class="cat-grid" id="catGrid"><div class="hover-bg-indicator" id="catHoverBg"></div></div>
+</section>
+
+<section id="products">
+  <div class="section-head scroll-reveal">
+    <div class="tag">What We Offer</div>
+    <h2>Paper, plastic, aluminium and foam items</h2>
+    <p>Disposable packaging with more than 500 items across four core material lines, and a constantly expanding range.</p>
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="product-grid" id="productGrid"><div class="hover-bg-indicator" id="prodHoverBg"></div></div>
+</section>
+
+<section id="tools">
+  <div class="section-head scroll-reveal">
+    <div class="tag">For Registered Accounts</div>
+    <h2>Self serve, without losing the account manager</h2>
+    <p>Three working tools below. Upload a CSV, build an instant quote, and check case pricing before you call.</p>
+  </div>
+  <div class="tools-grid scroll-reveal">
+    <div class="border-trail-wrapper"><div class="tool-card spotlight">
+      <div class="icon">CSV</div>
+      <h4>Quick Order Upload</h4>
+      <p>Upload a purchase order CSV from your own sheet. Rows are read in your browser only, nothing is sent anywhere.</p>
+      <label class="csv-drop" id="csvDrop" for="csvInput">
+        Drop a .csv file here, or click to choose one
+        <input type="file" id="csvInput" accept=".csv">
+      </label>
+      <div id="csvResult"></div>
+    </div></div>
+
+    <div class="border-trail-wrapper"><div class="tool-card spotlight">
+      <div class="icon">PDF</div>
+      <h4>Instant Quote Builder</h4>
+      <p>Configure material, size and quantity to generate a quote summary you can copy or print as a PDF.</p>
+      <div class="quote-form">
+        <select id="qMaterial">
+          <option>Paper</option>
+          <option>Plastic</option>
+          <option>Aluminium</option>
+          <option>Foam</option>
+        </select>
+        <input type="number" id="qQty" placeholder="Quantity (cases)" min="1" value="10">
+        <input type="text" id="qNote" placeholder="Custom print or spec notes (optional)">
+        <button type="button" id="qGenerate">Generate Quote</button>
+      </div>
+      <div id="quoteOut"></div>
+    </div></div>
+
+    <div class="border-trail-wrapper"><div class="tool-card spotlight">
+      <div class="icon">%</div>
+      <h4>Volume Pricing Calculator</h4>
+      <p>Adjust the case count to see the tier and discount applied automatically.</p>
+      <div class="qty-controls">
+        <button type="button" id="qtyMinus">-</button>
+        <span id="qtyValue">1</span>
+        <button type="button" id="qtyPlus">+</button>
+        <span style="font-size:0.78rem; color:var(--ink-dim);">cases</span>
+      </div>
+      <div id="discountLabel">List price</div>
+      <div class="price-tier">
+        <div><span>1 to 4 cases</span><b>List price</b></div>
+        <div><span>5 to 19 cases</span><b>10% off</b></div>
+        <div><span>20+ cases</span><b>18% off</b></div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section id="serve">
+  <div class="section-head scroll-reveal">
+    <div class="tag">Our Portfolio</div>
+    <h2>We cater to</h2>
+  </div>
+  <div class="serve-grid scroll-reveal" id="serveGrid"></div>
+</section>
+
+<section id="about">
+  <div class="about-grid scroll-reveal">
+    <div class="img-slot" style="background-image:url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop'); background-size:cover; background-position:center;"><span style="display:none;"></span></div>
+    <div>
+      <div class="tag" style="color:var(--accent); font-weight:700; font-size:0.76rem; text-transform:uppercase; letter-spacing:0.11em;">About Us</div>
+      <h2 style="margin:10px 0 18px; font-size:clamp(1.6rem,3vw,2.2rem);">Leading manufacturer of disposable products</h2>
+      <p>Manufacturing is carried out to set industry norms and guidelines, using the finest raw materials and modern machines to keep a consistent standard of quality across the range.</p>
+      <p>Morooj Nizwa International Company LLC, established in 2009, is a regional leader providing aluminium foils, aluminium and plastic containers, clingfilm and other plastic wraps, paper, plastic and foam cups, paper, plastic and foam plates, tableware, paper and plastic bags, hygiene and safety products, detergents and customized products for each market segment, with manufacturing and distribution facilities throughout Oman.</p>
+      <p><b>Our vision.</b> To keep rising in the business, constantly upgrading systems and technology to keep pace with advancing times, while keeping customers satisfied on delivery time and cost.</p>
+      <p><b>Our mission.</b> To become the number one provider of complete disposable food packing solutions, in quality, hygienic and safe products that offer customer delight.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-head scroll-reveal">
+    <div class="tag">Contact Us</div>
+    <h2>Ask your questions now</h2>
+  </div>
+  <div class="contact-wrap scroll-reveal">
+    <form class="contact-form" id="contactForm">
+      <input type="text" id="cName" placeholder="Name" required>
+      <input type="email" id="cEmail" placeholder="E-mail" required>
+      <textarea id="cMessage" placeholder="Message" required></textarea>
+      <button type="submit">Send Message</button>
+      <div id="contactStatus"></div>
+    </form>
+    <div class="contact-info">
+      <div class="row">
+        <div class="icon">T</div>
+        <div><h4>Phone</h4><span>+968 25447378 (office)<br>+968 96597969 (mobile)<br>Fax +968 25447378</span></div>
+      </div>
+      <div class="row">
+        <div class="icon">@</div>
+        <div><h4>Email</h4><span>info@monipack.com</span></div>
+      </div>
+      <div class="row">
+        <div class="icon">A</div>
+        <div><h4>Address</h4><span>Nizwa, Karsha Industrial Area<br>PO Box 1168<br>Sultanate of Oman</span></div>
+      </div>
+      <iframe src="https://maps.google.com/maps?q=22.8407981,57.5521236&hl=en&z=17&amp;output=embed" width="100%" height="220" style="border:0; border-radius:12px; margin-top:6px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="brand" style="margin-bottom:10px;"><div class="mark"><img src="https://www.monipack.com/gallery_gen/1fcdde1763e767179df5c598beabde31_629x508.91818181818.png" alt="Monipack logo"></div></div>
+      <p style="font-size:0.84rem; color:var(--ink-dim); max-width:280px; line-height:1.6;">Morooj Nizwa International Company LLC. Disposable and food packaging distributor based in Nizwa, Oman, since 2009.</p>
+    </div>
+    <div>
+      <h5>Useful Links</h5>
+      <a data-scroll="home">Home</a>
+      <a data-scroll="about">About Us</a>
+      <a data-scroll="products">Products</a>
+      <a data-scroll="contact">Contact Us</a>
+    </div>
+    <div>
+      <h5>Our Products</h5>
+      <a data-scroll="products">Paper Items</a>
+      <a data-scroll="products">Plastic Items</a>
+      <a data-scroll="products">Aluminium Items</a>
+      <a data-scroll="products">Foam Items</a>
+    </div>
+    <div>
+      <h5>Contact Information</h5>
+      <a href="tel:+96825447378">Phone. +968 25447378</a>
+      <a href="tel:+96896597969">Mobile. +968 96597969</a>
+      <a href="mailto:info@monipack.com">info@monipack.com</a>
+      <a>Nizwa, Karsha Industrial Area, PO Box 1168, Oman</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Copyright 2026 Monipack, redesign showcase</span>
+    <span>Content sourced from monipack.com. Product photography left as placeholders for the client to add.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Saved</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var body = document.body;
+
+  
+
+  /* ============ MOBILE MENU ============ */
+  var hamburger = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', function(){
+    mobileMenu.classList.toggle('open');
+  });
+
+  /* ============ SCROLL NAV ============ */
+  function scrollToId(id){
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+    mobileMenu.classList.remove('open');
+  }
+  document.querySelectorAll('[data-scroll]').forEach(function(el){
+    el.addEventListener('click', function(){ scrollToId(el.getAttribute('data-scroll')); });
+  });
+  var navLinkButtons = document.querySelectorAll('.nav-links .navlink');
+  var sectionIds = ['home','products','tools','about','contact'];
+  window.addEventListener('scroll', function(){
+    var pos = window.scrollY + 120;
+    var current = 'home';
+    sectionIds.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el && el.offsetTop <= pos) current = id;
+    });
+    navLinkButtons.forEach(function(b){
+      b.classList.toggle('current', b.getAttribute('data-scroll') === current);
+    });
+  });
+
+  /* ============ B2B / B2C MODE ============ */
+  var content = {
+    b2b: {
+      eyebrow: "Nizwa, Oman. Established 2009",
+      sub: "Morooj Nizwa International Company LLC, trading as Monipack, is a regional manufacturer and distributor of disposable food packaging, serving hotels, hospitals and food chains across Oman with more than 1000 products.",
+      primaryCta: "Request Trade Pricing",
+      secondaryCta: "Browse Products",
+      catsTag: "Industry Shopping",
+      catsHeading: "Shop by who you serve",
+      cats: [
+        {n:'01', name:'Hotels and Hospitality', desc:'Buffet, room service and banquet sets'},
+        {n:'02', name:'Hospitals and Institutions', desc:'Hygiene and safety certified lines'},
+        {n:'03', name:'Airlines and Catering', desc:'Sealed, stackable, cold chain ready'},
+        {n:'04', name:'Restaurants and Bakeries', desc:'Takeaway and dine in packaging'}
+      ]
+    },
+    b2c: {
+      eyebrow: "Homepack series. New for retail",
+      sub: "The Homepack series brings Monipack's disposable food packaging into retail sized sets, for home baking, meal prep and everyday storage.",
+      primaryCta: "Shop Homepack Sets",
+      secondaryCta: "Browse Products",
+      catsTag: "Shop by Use",
+      catsHeading: "Whatever you are hosting, there is a set for it",
+      cats: [
+        {n:'01', name:'Home Baking', desc:'Siliconized paper baking moulds'},
+        {n:'02', name:'Meal Prep and Storage', desc:'Reusable and disposable containers'},
+        {n:'03', name:'Parties and Events', desc:'Coordinated disposable sets'},
+        {n:'04', name:'Everyday Retail Packs', desc:'Homepack sets for daily use'}
+      ]
+    }
+  };
+
+  var els = {
+    eyebrow: document.getElementById('eyebrowText'),
+    sub: document.getElementById('heroSub'),
+    primaryCta: document.getElementById('primaryCta'),
+    secondaryCta: document.getElementById('secondaryCta'),
+    catsTag: document.getElementById('catsTag'),
+    catsHeading: document.getElementById('catsHeading'),
+    catGrid: document.getElementById('catGrid'),
+    toggle: document.getElementById('modeToggle')
+  };
+
+  
+  function renderCats(list){
+    var catHoverBg = '<div class="hover-bg-indicator" id="catHoverBg"></div>';
+    var images = body.getAttribute('data-mode') === 'b2c' ? 
+      ['https://images.unsplash.com/photo-1556910103-1c02745a8284?q=80&w=400&auto=format&fit=crop', 'https://images.unsplash.com/photo-1581451006509-bc8d7b3c200c?q=80&w=400&auto=format&fit=crop', 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=400&auto=format&fit=crop', 'https://images.unsplash.com/photo-1628102491629-778571d893a3?q=80&w=400&auto=format&fit=crop'] : 
+      ['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=400&auto=format&fit=crop', 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=400&auto=format&fit=crop', 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=400&auto=format&fit=crop', 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=400&auto=format&fit=crop'];
+    
+    els.catGrid.innerHTML = catHoverBg + list.map(function(c, i){
+      return '<div class="cat-card">' +
+        '<div class="img-slot" style="background-image:url('+images[i]+'); background-size:cover; background-position:center;"><span style="display:none;"></span></div>' +
+        '<div class="body"><span class="num">'+c.n+'</span><h4>'+c.name+'</h4><p>'+c.desc+'</p></div>' +
+      '</div>';
+    }).join('');
+    setTimeout(() => initSharedHover('catGrid', 'catHoverBg', '.cat-card'), 50);
+  }
+
+  function applyMode(mode){
+    var d = content[mode];
+    body.setAttribute('data-mode', mode);
+    els.eyebrow.textContent = d.eyebrow;
+    els.sub.textContent = d.sub;
+    els.primaryCta.textContent = d.primaryCta;
+    els.secondaryCta.textContent = d.secondaryCta;
+    els.catsTag.textContent = d.catsTag;
+    els.catsHeading.textContent = d.catsHeading;
+    renderCats(d.cats);
+    els.toggle.querySelectorAll('button').forEach(function(b){
+      b.classList.toggle('active', b.dataset.set === mode);
+    });
+  }
+  els.toggle.querySelectorAll('button').forEach(function(btn){
+    btn.addEventListener('click', function(){ applyMode(btn.dataset.set); });
+  });
+  applyMode('b2b');
+
+  /* ============ PRODUCTS (filterable, from real category names) ============ */
+  
+  var products = [
+    {name:'Paper Baking Moulds', mat:'Paper', meta:'Siliconized, oven safe', img:'https://images.unsplash.com/photo-1579208035860-222a0179d67b?q=80&w=400&auto=format&fit=crop'},
+    {name:'Disposable Paper Cups', mat:'Paper', meta:'Hot and cold rated', img:'https://images.unsplash.com/photo-1554316047-9759c8369543?q=80&w=400&auto=format&fit=crop'},
+    {name:'Paper Plates', mat:'Paper', meta:'Standard and heavy duty', img:'https://images.unsplash.com/photo-1583258292688-d0b7e289843c?q=80&w=400&auto=format&fit=crop'},
+    {name:'Paper Bags', mat:'Paper', meta:'Retail and takeaway sizes', img:'https://images.unsplash.com/photo-1596556535974-909569eddf3d?q=80&w=400&auto=format&fit=crop'},
+    {name:'Round Reusable Container', mat:'Plastic', meta:'Stackable, freezer safe', img:'https://images.unsplash.com/photo-1620311242371-331da2944b7d?q=80&w=400&auto=format&fit=crop'},
+    {name:'Clingfilm and Plastic Wraps', mat:'Plastic', meta:'Food grade rolls', img:'https://images.unsplash.com/photo-1628102491629-778571d893a3?q=80&w=400&auto=format&fit=crop'},
+    {name:'Disposable Cutlery, Biodegradable', mat:'Plastic', meta:'PET and PP options', img:'https://images.unsplash.com/photo-1603594247858-a6264ff656a1?q=80&w=400&auto=format&fit=crop'},
+    {name:'Plastic Cups and Tableware', mat:'Plastic', meta:'Catering and retail packs', img:'https://images.unsplash.com/photo-1590214815481-19ce925187e1?q=80&w=400&auto=format&fit=crop'},
+    {name:'Aluminium Disposable Containers', mat:'Aluminium', meta:'Cold chain and oven ready', img:'https://images.unsplash.com/photo-1607590867011-3e4b779a5270?q=80&w=400&auto=format&fit=crop'},
+    {name:'Aluminium Foils', mat:'Aluminium', meta:'Standard and heavy gauge', img:'https://images.unsplash.com/photo-1616886470479-79860b73c9f2?q=80&w=400&auto=format&fit=crop'},
+    {name:'Tamper Proof Food Container', mat:'Aluminium', meta:'Sealed, delivery safe', img:'https://images.unsplash.com/photo-1605230324838-662584e03f0f?q=80&w=400&auto=format&fit=crop'},
+    {name:'Foam Reusable Container', mat:'Foam', meta:'Insulated, lightweight', img:'https://images.unsplash.com/photo-1587049352847-8d4e8941554a?q=80&w=400&auto=format&fit=crop'},
+    {name:'Foam Food Containers', mat:'Foam', meta:'Hot food rated', img:'https://images.unsplash.com/photo-1587049352847-8d4e8941554a?q=80&w=400&auto=format&fit=crop'},
+    {name:'Foam Plates', mat:'Foam', meta:'Disposable, bulk packs', img:'https://images.unsplash.com/photo-1583258292688-d0b7e289843c?q=80&w=400&auto=format&fit=crop'}
+  ];
+
+  var materials = ['All', 'Paper', 'Plastic', 'Aluminium', 'Foam'];
+  var filterRow = document.getElementById('filterRow');
+  var productGrid = document.getElementById('productGrid');
+
+  
+  function renderProducts(filter){
+    var prodHoverBg = '<div class="hover-bg-indicator" id="prodHoverBg"></div>';
+    var list = filter === 'All' ? products : products.filter(function(p){ return p.mat === filter; });
+    productGrid.innerHTML = prodHoverBg + list.map(function(p){
+      return '<div class="product-card spotlight">' +
+        '<div class="img-slot" style="background-image:url('+p.img+'); background-size:cover; background-position:center;"><span style="display:none;"></span></div>' +
+        '<div class="body"><h4>'+p.name+'</h4><div class="meta">'+p.mat+'. '+p.meta+'</div>' +
+        '<div class="tier">View volume pricing</div></div>' +
+      '</div>';
+    }).join('');
+    setTimeout(() => initSharedHover('productGrid', 'prodHoverBg', '.product-card'), 50);
+  }
+  filterRow.innerHTML = materials.map(function(m,i){
+    return '<button class="filter-chip'+(i===0?' active':'')+'" data-mat="'+m+'">'+m+'</button>';
+  }).join('');
+  filterRow.querySelectorAll('.filter-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      filterRow.querySelectorAll('.filter-chip').forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+      renderProducts(chip.dataset.mat);
+    });
+  });
+  renderProducts('All');
+
+  /* ============ WHO WE SERVE ============ */
+  var served = [
+    'Hotels','Hospitals','Food Chains','Bakeries and Restaurants','Food Catering and Cater Services',
+    'Meat, Poultry, Fish Industry','Logistics','Schools and Offices','Supermarkets and Hypermarkets',
+    'Traders and Wholesalers','Government Departments','International Franchises','Amusement and Theme Parks',
+    'International Airlines and Airline Catering'
+  ];
+  document.getElementById('serveGrid').innerHTML = served.map(function(s){
+    return '<div class="serve-item"><div class="img-slot"></div>'+s+'</div>';
+  }).join('');
+
+  /* ============ TOAST ============ */
+  var toast = document.getElementById('toast');
+  var toastTimer;
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  }
+
+  /* ============ CSV QUICK ORDER UPLOAD (functional, parses in browser) ============ */
+  var csvDrop = document.getElementById('csvDrop');
+  var csvInput = document.getElementById('csvInput');
+  var csvResult = document.getElementById('csvResult');
+
+  function parseCsv(text){
+    var lines = text.split(/\r?\n/).filter(function(l){ return l.trim().length; });
+    return lines;
+  }
+  function handleCsvFile(file){
+    if (!file){ return; }
+    if (!/\.csv$/i.test(file.name)){
+      csvResult.textContent = 'Please choose a .csv file.';
+      csvResult.style.color = 'var(--accent-2)';
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var lines = parseCsv(String(e.target.result));
+      var rowCount = Math.max(lines.length - 1, 0);
+      csvResult.style.color = 'var(--accent)';
+      csvResult.textContent = 'Loaded "'+file.name+'". Found '+rowCount+' order line'+(rowCount===1?'':'s')+', ready to review at checkout.';
+      showToast('CSV order file loaded');
+    };
+    reader.onerror = function(){
+      csvResult.textContent = 'Could not read that file, please try again.';
+    };
+    reader.readAsText(file);
+  }
+  csvInput.addEventListener('change', function(){ handleCsvFile(csvInput.files[0]); });
+  ['dragenter','dragover'].forEach(function(evt){
+    csvDrop.addEventListener(evt, function(e){ e.preventDefault(); csvDrop.classList.add('drag'); });
+  });
+  ['dragleave','drop'].forEach(function(evt){
+    csvDrop.addEventListener(evt, function(e){ e.preventDefault(); csvDrop.classList.remove('drag'); });
+  });
+  csvDrop.addEventListener('drop', function(e){
+    var file = e.dataTransfer.files && e.dataTransfer.files[0];
+    handleCsvFile(file);
+  });
+
+  /* ============ INSTANT QUOTE BUILDER (functional) ============ */
+  var qGenerate = document.getElementById('qGenerate');
+  var quoteOut = document.getElementById('quoteOut');
+  qGenerate.addEventListener('click', function(){
+    var material = document.getElementById('qMaterial').value;
+    var qty = parseInt(document.getElementById('qQty').value, 10) || 0;
+    var note = document.getElementById('qNote').value.trim();
+    if (qty <= 0){
+      quoteOut.style.display = 'block';
+      quoteOut.innerHTML = 'Enter a quantity greater than zero to generate a quote.';
+      return;
+    }
+    var discount = qty >= 20 ? 0.18 : qty >= 5 ? 0.10 : 0;
+    var basePerCase = 12.50;
+    var subtotal = qty * basePerCase;
+    var total = subtotal * (1 - discount);
+    var quoteId = 'MNQ-' + Math.floor(1000 + Math.random()*9000);
+    quoteOut.style.display = 'block';
+    quoteOut.innerHTML =
+      'Quote <b>'+quoteId+'</b> generated.<br>' +
+      'Material: <b>'+material+'</b><br>' +
+      'Quantity: <b>'+qty+' case'+(qty===1?'':'s')+'</b><br>' +
+      (note ? ('Notes: '+note+'<br>') : '') +
+      'Discount tier: <b>'+(discount*100).toFixed(0)+'% off</b><br>' +
+      'Estimated total: <b>OMR '+total.toFixed(2)+'</b>';
+    showToast('Quote '+quoteId+' generated');
+  });
+
+  /* ============ VOLUME PRICING CALCULATOR (functional) ============ */
+  var qtyValue = document.getElementById('qtyValue');
+  var qtyMinus = document.getElementById('qtyMinus');
+  var qtyPlus = document.getElementById('qtyPlus');
+  var discountLabel = document.getElementById('discountLabel');
+  var qty = 1;
+  function updateQty(){
+    qtyValue.textContent = qty;
+    var label = qty >= 20 ? '18% off applied' : qty >= 5 ? '10% off applied' : 'List price';
+    discountLabel.textContent = label + ' at ' + qty + ' case' + (qty===1?'':'s');
+  }
+  qtyMinus.addEventListener('click', function(){ qty = Math.max(1, qty-1); updateQty(); });
+  qtyPlus.addEventListener('click', function(){ qty = Math.min(999, qty+1); updateQty(); });
+  updateQty();
+
+  /* ============ CONTACT FORM (functional, client side) ============ */
+  var contactForm = document.getElementById('contactForm');
+  var contactStatus = document.getElementById('contactStatus');
+  contactForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('cName').value.trim();
+    var email = document.getElementById('cEmail').value.trim();
+    var message = document.getElementById('cMessage').value.trim();
+    if (!name || !email || !message){
+      contactStatus.style.display = 'block';
+      contactStatus.style.color = 'var(--accent-2)';
+      contactStatus.textContent = 'Please fill in every field before sending.';
+      return;
+    }
+    contactStatus.style.display = 'block';
+    contactStatus.style.color = 'var(--accent)';
+    contactStatus.textContent = 'Thank you, ' + name.split(' ')[0] + '. Your message has been queued to info@monipack.com.';
+    showToast('Message sent');
+    contactForm.reset();
+  });
+
+
+  /* --- Initialize Scroll & Motion Effects --- */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        if (entry.target.classList.contains('count-up') && !entry.target.classList.contains('done')) {
+           entry.target.classList.add('done');
+           animateValue(entry.target, 0, parseInt(entry.target.dataset.target), 2000);
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  document.querySelectorAll('.scroll-reveal, .hero-visual, .count-up').forEach(el => observer.observe(el));
+  setTimeout(() => document.querySelector('.hero-visual').classList.add('in-view'), 100); // trigger hero immediately
+
+  function animateValue(obj, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      // spring-like easing
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      obj.innerHTML = Math.floor(easeOutQuart * (end - start) + start) + (obj.dataset.suffix || '');
+      if (progress < 1) window.requestAnimationFrame(step);
+    };
+    window.requestAnimationFrame(step);
+  }
+
+  /* Spotlight Effect */
+  document.querySelectorAll('.spotlight').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const rect = el.getBoundingClientRect();
+      el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+      el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+    });
+  });
+
+  /* Shared Background Hover Effect */
+  function initSharedHover(gridId, bgId, itemClass) {
+    const grid = document.getElementById(gridId);
+    const bg = document.getElementById(bgId);
+    if (!grid || !bg) return;
+    grid.addEventListener('mousemove', (e) => {
+      const item = e.target.closest(itemClass);
+      if (item) {
+        const itemRect = item.getBoundingClientRect();
+        const gridRect = grid.getBoundingClientRect();
+        bg.style.opacity = '1';
+        bg.style.width = `${itemRect.width}px`;
+        bg.style.height = `${itemRect.height}px`;
+        bg.style.transform = `translate(${itemRect.left - gridRect.left}px, ${itemRect.top - gridRect.top}px)`;
+      } else {
+        bg.style.opacity = '0';
+      }
+    });
+    grid.addEventListener('mouseleave', () => bg.style.opacity = '0');
+  }
+  // Initialize after render
+  setTimeout(() => {
+    initSharedHover('catGrid', 'catHoverBg', '.cat-card');
+    initSharedHover('productGrid', 'prodHoverBg', '.product-card');
+  }, 1000);
+
+
+
+  /* --- Cursor Circle --- */
+  var cursor = document.getElementById('cursor-circle');
+  var dot = document.getElementById('cursor-dot');
+  var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  var circleX = mouseX, circleY = mouseY;
+  var speed = 0.2;
+  
+  window.addEventListener('mousemove', function(e){
+    mouseX = e.clientX; 
+    mouseY = e.clientY;
+    dot.style.transform = 'translate(' + (mouseX - 3) + 'px, ' + (mouseY - 3) + 'px)';
+  });
+  
+  function animateCursor(){
+    circleX += (mouseX - circleX) * speed;
+    circleY += (mouseY - circleY) * speed;
+    var offset = cursor.offsetWidth / 2;
+    cursor.style.transform = 'translate(' + (circleX - offset) + 'px, ' + (circleY - offset) + 'px)';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  
+  function bindCursorInteractions() {
+    document.querySelectorAll('a, button, input, select, textarea, label, .cat-card, .product-card, .csv-drop').forEach(function(el){
+      el.addEventListener('mouseenter', function(){
+        cursor.style.width = '36px';
+        cursor.style.height = '36px';
+        cursor.style.backgroundColor = 'rgba(225, 34, 41, 0.12)';
+        dot.style.opacity = '0'; // Hide the dot on hover for a cleaner look
+      });
+      el.addEventListener('mouseleave', function(){
+        cursor.style.width = '24px';
+        cursor.style.height = '24px';
+        cursor.style.backgroundColor = 'transparent';
+        dot.style.opacity = '1';
+      });
+    });
+  }
+  bindCursorInteractions();
+  // Ensure elements updated by JS also get bound
+  setTimeout(bindCursorInteractions, 1500);
+
+})();
+</script>
+</body>
+</html>
