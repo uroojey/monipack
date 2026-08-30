@@ -2,7 +2,7 @@
 
 A modern, responsive web application and redesign showcase built for **Morooj Nizwa International Company LLC (Monipack)** — a regional manufacturer and distributor of disposable food packaging based in Nizwa, Oman.
 
-**Live URL:** [https://demomonipack.netlify.app/](https://demomonipack.netlify.app/)
+**Live URL:** [https://demonipack.netlify.app/](https://demonipack.netlify.app/)
 **Og Website:** [https://www.monipack.com/](https://monipack.com/)
 
 ---
