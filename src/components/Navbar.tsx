@@ -274,11 +274,6 @@ export default function Navbar({
             </div>
             <span className="nav-item-arrow">→</span>
           </button>
-          <button className="mobile-nav-item" onClick={() => handleNavClick('serve')}>
-            <span className="nav-item-icon">🏢</span>
-            <span className="nav-item-title">{lang === 'ar' ? 'من نخدم (القطاعات)' : 'Who We Serve'}</span>
-            <span className="nav-item-arrow">→</span>
-          </button>
           <button className="mobile-nav-item" onClick={() => handleNavClick('about')}>
             <span className="nav-item-icon">🏭</span>
             <span className="nav-item-title">{t.about}</span>
