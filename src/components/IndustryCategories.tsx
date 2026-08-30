@@ -84,7 +84,7 @@ export default function IndustryCategories({ mode, lang }: IndustryCategoriesPro
           nameAr: 'الخبز المنزلي',
           descEn: 'Siliconized paper baking moulds & cake liners',
           descAr: 'قوالب كيك ورقية سيليكونية آمنة للفرن',
-          img: 'https://images.unsplash.com/photo-1556910103-1c02745a8284?q=80&w=400&auto=format&fit=crop',
+          img: '/images/b2c_baking.jpg',
         },
         {
           n: '02',
@@ -94,7 +94,7 @@ export default function IndustryCategories({ mode, lang }: IndustryCategoriesPro
           nameAr: 'إعداد وحفظ الوجبات',
           descEn: 'Reusable and disposable leak-proof containers',
           descAr: 'حافظات طعام مانعة للتسرب للثلاجة والمايكرويف',
-          img: 'https://images.unsplash.com/photo-1581451006509-bc8d7b3c200c?q=80&w=400&auto=format&fit=crop',
+          img: '/images/b2c_mealprep.jpg',
         },
         {
           n: '03',
@@ -104,7 +104,7 @@ export default function IndustryCategories({ mode, lang }: IndustryCategoriesPro
           nameAr: 'الحفلات والمناسبات',
           descEn: 'Coordinated disposable sets and luxury plates',
           descAr: 'أطقم سفرة متكاملة للمناسبات والرحلات العائلية',
-          img: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=400&auto=format&fit=crop',
+          img: '/images/industry_hospitality.jpg',
         },
         {
           n: '04',
@@ -114,7 +114,7 @@ export default function IndustryCategories({ mode, lang }: IndustryCategoriesPro
           nameAr: 'العبوات اليومية',
           descEn: 'Homepack convenient sizes for daily family use',
           descAr: 'مجموعات هوم باك الاقتصادية للاستعمال اليومي',
-          img: 'https://images.unsplash.com/photo-1628102491629-778571d893a3?q=80&w=400&auto=format&fit=crop',
+          img: '/images/prod_paper.jpg',
         },
       ],
     },

@@ -100,7 +100,7 @@ const sectors: SectorCard[] = [
     descAr: 'سلسلة هوم باك المخصصة لرفوف التجزئة والمنازل، وطلبيات الحاويات المباشرة من المصنع.',
     specsEn: ['Retail Barcoded', 'Direct Nizwa Supply'],
     specsAr: ['باركود تجزئة دولي', 'توريد مباشر من نزوى'],
-    img: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?q=80&w=600&auto=format&fit=crop',
+    img: '/images/prod_plastic.jpg',
   },
 ];
 
