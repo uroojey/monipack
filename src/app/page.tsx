@@ -108,17 +108,26 @@ export default function Home() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      { rootMargin: '120px 0px 120px 0px', threshold: 0 }
     );
 
     const revealElements = document.querySelectorAll('.scroll-reveal');
-    revealElements.forEach((el) => observer.observe(el));
+    revealElements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight + 200) {
+        el.classList.add('in-view');
+      } else {
+        observer.observe(el);
+      }
+    });
 
     return () => observer.disconnect();
   }, [mode, lang]);
+
 
   const handleSelectProductFromSearch = (product: ProductItem) => {
     setQuotePrefill({

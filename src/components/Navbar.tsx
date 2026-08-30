@@ -194,10 +194,23 @@ export default function Navbar({
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen((prev) => !prev)}
           >
-            <span className="hamburger-box">
-              <span className="hamburger-inner" />
-            </span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="hamburger-svg"
+            >
+              <line x1="4" y1="6" x2="20" y2="6" className="line-top" />
+              <line x1="4" y1="12" x2="20" y2="12" className="line-middle" />
+              <line x1="4" y1="18" x2="20" y2="18" className="line-bottom" />
+            </svg>
           </button>
+
         </div>
       </nav>
 
