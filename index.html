@@ -450,30 +450,38 @@
   @keyframes infinite-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 
-  /* --- Custom Cursor --- */
-  body, a, button, input, select, textarea, label, .cat-card, .product-card { cursor: none !important; }
-  #cursor-dot {
-    position: fixed;
-    top: 0; left: 0;
-    width: 6px; height: 6px;
-    background-color: var(--accent);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 100000;
-    will-change: transform;
+  /* --- Custom Cursor (Desktop Fine Pointer Only) --- */
+  @media (hover: hover) and (pointer: fine) and (min-width: 1025px) {
+    body, a, button, input, select, textarea, label, .cat-card, .product-card { cursor: none !important; }
+    #cursor-dot {
+      position: fixed;
+      top: 0; left: 0;
+      width: 6px; height: 6px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 100000;
+      will-change: transform;
+    }
+    #cursor-circle {
+      position: fixed;
+      top: 0; left: 0;
+      width: 24px; height: 24px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transition: width 0.2s cubic-bezier(.22,.68,0,1), height 0.2s cubic-bezier(.22,.68,0,1), background-color 0.2s cubic-bezier(.22,.68,0,1);
+      will-change: transform;
+    }
   }
-  #cursor-circle {
-    position: fixed;
-    top: 0; left: 0;
-    width: 24px; height: 24px;
-    border: 1.5px solid var(--accent);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 99999;
-    transition: width 0.2s cubic-bezier(.22,.68,0,1), height 0.2s cubic-bezier(.22,.68,0,1), background-color 0.2s cubic-bezier(.22,.68,0,1);
-    will-change: transform;
+  @media (hover: none), (pointer: coarse), (max-width: 1024px) {
+    #cursor-dot, #cursor-circle { display: none !important; opacity: 0 !important; pointer-events: none !important; }
+    body, a, button, input, select, textarea, label, .cat-card, .product-card { cursor: auto !important; }
+    button, a { cursor: pointer !important; }
   }
 </style>
+
 </head>
 <body data-mode="b2b">
 <div id="cursor-dot"></div>

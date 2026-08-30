@@ -1,12 +1,31 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
+  const [isEnabled, setIsEnabled] = useState(false);
 
   useEffect(() => {
+    // Check if device is desktop with fine pointer
+    const checkDevice = () => {
+      const isTouch =
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.matchMedia('(pointer: coarse)').matches;
+      const isDesktopWidth = window.innerWidth > 1024;
+      setIsEnabled(!isTouch && isDesktopWidth);
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
+
+  useEffect(() => {
+    if (!isEnabled) return;
+
     const dot = dotRef.current;
     const circle = circleRef.current;
     if (!dot || !circle) return;
@@ -72,7 +91,9 @@ export default function CustomCursor() {
       cancelAnimationFrame(animationFrameId);
       observer.disconnect();
     };
-  }, []);
+  }, [isEnabled]);
+
+  if (!isEnabled) return null;
 
   return (
     <>
@@ -81,3 +102,4 @@ export default function CustomCursor() {
     </>
   );
 }
+

@@ -83,10 +83,11 @@ export default function Home() {
 
   // ScrollSpy for Active Nav Section
   useEffect(() => {
-    const sectionIds = ['home', 'products', 'tools', 'about', 'contact'];
+    const sectionIds = ['home', 'products', 'tools', 'serve', 'about', 'contact'];
     const handleScroll = () => {
       const pos = window.scrollY + 140;
       let current = 'home';
+
       for (const id of sectionIds) {
         const el = document.getElementById(id);
         if (el && el.offsetTop <= pos) {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { translations, Language } from '@/data/translations';
 
 interface NavbarProps {
@@ -27,26 +27,63 @@ export default function Navbar({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const t = translations[lang].nav;
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  // Close mobile menu on Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
+
   const handleNavClick = (id: string) => {
     onScrollTo(id);
     setMobileMenuOpen(false);
   };
 
+  const handleAdvisorClick = () => {
+    onOpenAdvisor();
+    setMobileMenuOpen(false);
+  };
+
   return (
     <header className="nav-container">
-      <nav className="nav-pill">
+      <nav className="nav-pill" role="navigation" aria-label="Main Navigation">
         {/* Brand */}
-        <div className="brand" onClick={() => handleNavClick('home')} style={{ cursor: 'pointer' }}>
+        <div
+          className="brand"
+          onClick={() => handleNavClick('home')}
+          style={{ cursor: 'pointer' }}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && handleNavClick('home')}
+        >
           <div className="mark">
             <img
               src="https://www.monipack.com/gallery_gen/1fcdde1763e767179df5c598beabde31_629x508.91818181818.png"
               alt="Monipack logo"
+              width={34}
+              height={28}
             />
           </div>
           <span className="brand-name">Monipack</span>
         </div>
 
-        {/* Clean Center Nav Links */}
+        {/* Desktop Center Nav Links */}
         <div className="nav-links">
           <button
             className={`navlink ${activeSection === 'products' ? 'current' : ''}`}
@@ -71,6 +108,13 @@ export default function Navbar({
             <span>{t.advisor}</span>
           </button>
           <button
+            className="navlink"
+            onClick={() => handleNavClick('serve')}
+            type="button"
+          >
+            {lang === 'ar' ? 'من نخدم' : 'Who We Serve'}
+          </button>
+          <button
             className={`navlink ${activeSection === 'about' ? 'current' : ''}`}
             onClick={() => handleNavClick('about')}
             type="button"
@@ -88,31 +132,33 @@ export default function Navbar({
 
         {/* Right Actions */}
         <div className="nav-right">
-          {/* Minimal Search Button */}
+          {/* Search Button (Adaptive: icon+kbd on desktop, icon-only on mobile) */}
           <button
             onClick={onOpenSearch}
             type="button"
             className="nav-search-btn"
+            aria-label={lang === 'ar' ? 'بحث المنتجات' : 'Search products'}
             title={lang === 'ar' ? 'بحث (Cmd+K)' : 'Search (Cmd+K)'}
           >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.3-4.3" />
             </svg>
             <kbd className="search-kbd">⌘K</kbd>
           </button>
 
-          {/* Minimal Language Switch */}
+          {/* Quick Language Switch Button */}
           <button
             onClick={onToggleLang}
             type="button"
             className="nav-lang-btn"
+            aria-label={lang === 'ar' ? 'Switch to English' : 'التحويل إلى العربية'}
           >
-            {t.langToggle}
+            {lang === 'en' ? 'عربي' : 'EN'}
           </button>
 
-          {/* Minimal B2B / B2C Toggle */}
-          <div className="mode-toggle" id="modeToggle">
+          {/* Desktop-only B2B / B2C Toggle */}
+          <div className="mode-toggle desktop-only" id="modeToggle">
             <div className="pill" />
             <button
               className={mode === 'b2b' ? 'active' : ''}
@@ -130,52 +176,141 @@ export default function Navbar({
             </button>
           </div>
 
-          {/* Clean Primary CTA */}
+          {/* Desktop-only Primary CTA */}
           <button
-            className="nav-cta"
+            className="nav-cta desktop-only"
             onClick={() => handleNavClick('tools')}
             type="button"
           >
             {t.getQuote}
           </button>
 
-          {/* Mobile Hamburger */}
+          {/* Modern Animated Mobile Hamburger Toggle */}
           <button
-            className="hamburger"
+            className={`hamburger ${mobileMenuOpen ? 'active' : ''}`}
             id="hamburger"
             type="button"
-            aria-label="Menu"
+            aria-label={mobileMenuOpen ? (lang === 'ar' ? 'إغلاق القائمة' : 'Close menu') : (lang === 'ar' ? 'فتح القائمة' : 'Open menu')}
+            aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen((prev) => !prev)}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M3 6h18M3 12h18M3 18h18" />
-            </svg>
+            <span className="hamburger-box">
+              <span className="hamburger-inner" />
+            </span>
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Dimmed Backdrop Overlay for Mobile Drawer */}
+      <div
+        className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`}
+        onClick={() => setMobileMenuOpen(false)}
+        aria-hidden="true"
+      />
+
+      {/* Modern Slide-down Mobile Drawer Sheet */}
       <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
-        <button onClick={() => handleNavClick('products')}>{t.products}</button>
-        <button onClick={() => handleNavClick('tools')}>{t.tools}</button>
-        <button onClick={onOpenAdvisor} style={{ color: 'var(--accent)' }}>✨ {t.advisor}</button>
-        <button onClick={() => handleNavClick('about')}>{t.about}</button>
-        <button onClick={() => handleNavClick('contact')}>{t.contact}</button>
-        <div style={{ display: 'flex', gap: '8px', paddingTop: '10px' }}>
-          <button
-            onClick={onToggleLang}
-            style={{ flex: 1, textAlign: 'center', border: '1px solid var(--line)', borderRadius: '8px', padding: '8px' }}
-          >
-            🌐 {t.langToggle}
+        {/* Mode Selector Segment */}
+        <div className="mobile-mode-section">
+          <div className="mobile-mode-label">
+            {lang === 'ar' ? 'نوع الطلب والتوريد' : 'Supply & Catalog Mode'}
+          </div>
+          <div className="mobile-mode-pills">
+            <button
+              className={`mobile-mode-btn ${mode === 'b2b' ? 'active' : ''}`}
+              onClick={() => setMode('b2b')}
+              type="button"
+            >
+              <span className="mode-btn-icon">🏢</span>
+              <div className="mode-btn-text">
+                <b>{lang === 'ar' ? 'توريد تجاري (B2B)' : 'B2B Wholesale'}</b>
+                <small>{lang === 'ar' ? 'للفنادق، المستشفيات والشركات' : 'Commercial & Bulk'}</small>
+              </div>
+            </button>
+            <button
+              className={`mobile-mode-btn ${mode === 'b2c' ? 'active' : ''}`}
+              onClick={() => setMode('b2c')}
+              type="button"
+            >
+              <span className="mode-btn-icon">🛍️</span>
+              <div className="mode-btn-text">
+                <b>{lang === 'ar' ? 'أفراد وحفلات (B2C)' : 'B2C Homepack'}</b>
+                <small>{lang === 'ar' ? 'للمنازل والمناسبات العائلية' : 'Retail & Catering'}</small>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="mobile-nav-links">
+          <button className="mobile-nav-item" onClick={() => handleNavClick('products')}>
+            <span className="nav-item-icon">📦</span>
+            <span className="nav-item-title">{t.products}</span>
+            <span className="nav-item-badge">1000+</span>
           </button>
-          <button
-            onClick={onOpenSearch}
-            style={{ flex: 1, textAlign: 'center', border: '1px solid var(--line)', borderRadius: '8px', padding: '8px' }}
-          >
-            🔍 {lang === 'ar' ? 'بحث' : 'Search'}
+          <button className="mobile-nav-item" onClick={() => handleNavClick('tools')}>
+            <span className="nav-item-icon">⚙️</span>
+            <span className="nav-item-title">{t.tools}</span>
+            <span className="nav-item-arrow">→</span>
           </button>
+          <button className="mobile-nav-item advisor-highlight" onClick={handleAdvisorClick}>
+            <span className="nav-item-icon">✨</span>
+            <div className="nav-item-title-group">
+              <span className="nav-item-title">{t.advisor}</span>
+              <span className="advisor-tag">{lang === 'ar' ? 'مساعد ذكي' : 'AI Assistant'}</span>
+            </div>
+            <span className="nav-item-arrow">→</span>
+          </button>
+          <button className="mobile-nav-item" onClick={() => handleNavClick('serve')}>
+            <span className="nav-item-icon">🏢</span>
+            <span className="nav-item-title">{lang === 'ar' ? 'من نخدم (القطاعات)' : 'Who We Serve'}</span>
+            <span className="nav-item-arrow">→</span>
+          </button>
+          <button className="mobile-nav-item" onClick={() => handleNavClick('about')}>
+            <span className="nav-item-icon">🏭</span>
+            <span className="nav-item-title">{t.about}</span>
+            <span className="nav-item-arrow">→</span>
+          </button>
+          <button className="mobile-nav-item" onClick={() => handleNavClick('contact')}>
+            <span className="nav-item-icon">📞</span>
+            <span className="nav-item-title">{t.contact}</span>
+            <span className="nav-item-arrow">→</span>
+          </button>
+        </div>
+
+        {/* Quick Action CTA Buttons */}
+        <div className="mobile-actions-group">
+          <button
+            className="mobile-primary-cta"
+            onClick={() => handleNavClick('tools')}
+            type="button"
+          >
+            📑 {lang === 'ar' ? 'طلب عرض أسعار تجاري' : 'Request Trade Pricing'}
+          </button>
+
+          <div className="mobile-contact-row">
+            <a
+              href="https://wa.me/96896597969?text=Hello%20Monipack%20Sales%20Team"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mobile-whatsapp-btn"
+            >
+              <span>💬</span>
+              <span>{lang === 'ar' ? 'واتساب مباشر' : 'WhatsApp'}</span>
+            </a>
+            <a href="tel:+96825447378" className="mobile-phone-btn">
+              <span>📞</span>
+              <span>{lang === 'ar' ? 'اتصال بالمصنع' : 'Call Factory'}</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Mobile Drawer Footer */}
+        <div className="mobile-drawer-footer">
+          <span>{lang === 'ar' ? 'شركة مروج نزوى الدولية ش.م.م • نزوى، عُمان' : 'Morooj Nizwa Int. Co. LLC • Nizwa, Oman'}</span>
         </div>
       </div>
     </header>
   );
 }
+
