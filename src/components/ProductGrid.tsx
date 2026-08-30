@@ -75,13 +75,13 @@ export default function ProductGrid({
 
   return (
     <section id="products">
-      <div className="section-head scroll-reveal">
+      <div className="section-head">
         <div className="tag">{t.tag}</div>
         <h2>{t.heading}</h2>
         <p>{t.sub}</p>
       </div>
 
-      <div className="filter-row scroll-reveal">
+      <div className="filter-row">
         {materials.map((m) => (
           <button
             key={m}
@@ -95,7 +95,7 @@ export default function ProductGrid({
       </div>
 
       <div
-        className="product-grid scroll-reveal"
+        className="product-grid"
         id="productGrid"
         ref={gridRef}
         onMouseLeave={() => setHoverStyle((prev) => ({ ...prev, opacity: 0 }))}

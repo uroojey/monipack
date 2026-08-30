@@ -141,7 +141,7 @@ export default function IndustryCategories({ mode, lang }: IndustryCategoriesPro
 
   return (
     <section id="cats">
-      <div className="section-head scroll-reveal">
+      <div className="section-head">
         <div className="tag" id="catsTag">
           {current.tag}
         </div>
@@ -149,7 +149,7 @@ export default function IndustryCategories({ mode, lang }: IndustryCategoriesPro
         <p id="catsSub">{current.sub}</p>
       </div>
       <div
-        className="cat-grid scroll-reveal"
+        className="cat-grid"
         id="catGrid"
         ref={gridRef}
         onMouseMove={handleMouseMove}

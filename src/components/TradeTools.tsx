@@ -197,13 +197,13 @@ export default function TradeTools({
 
   return (
     <section id="tools">
-      <div className="section-head scroll-reveal">
+      <div className="section-head">
         <div className="tag">{t.tag}</div>
         <h2>{t.heading}</h2>
         <p>{t.sub}</p>
       </div>
 
-      <div className="tools-grid scroll-reveal">
+      <div className="tools-grid">
         {/* ========================================================
             CARD 1: Smart CSV Purchase Order Batch Upload
             ======================================================== */}
@@ -472,7 +472,7 @@ export default function TradeTools({
       {/* ========================================================
           TOOL 4: Free Sample Box Builder ("Order a Free Sample Box")
           ======================================================== */}
-      <div className="sample-builder-card scroll-reveal">
+      <div className="sample-builder-card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
           <div>
             <div className="tag" style={{ color: 'var(--accent-3)' }}>{lang === 'ar' ? 'خدمة الشركات والمطاعم' : 'For Hospitality & Restaurants'}</div>

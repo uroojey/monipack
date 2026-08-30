@@ -140,7 +140,7 @@ export default function WhoWeServe({ lang }: WhoWeServeProps) {
 
   return (
     <section id="serve" className="bento-serve-section">
-      <div className="section-head scroll-reveal">
+      <div className="section-head">
         <div className="tag">{lang === 'ar' ? 'قطاعات التوريد والعملاء' : 'Industry Solutions'}</div>
         <h2>{lang === 'ar' ? 'حلول تغليف مصممة خصيصاً لقطاع أعمالك' : 'Engineered for Every Sector Across Oman & GCC'}</h2>
         <p>
@@ -151,7 +151,7 @@ export default function WhoWeServe({ lang }: WhoWeServeProps) {
       </div>
 
       {/* Filter Tabs */}
-      <div className="filter-row scroll-reveal" style={{ justifyContent: 'center', marginBottom: '32px' }}>
+      <div className="filter-row" style={{ justifyContent: 'center', marginBottom: '32px' }}>
         {filterTabs.map((tab) => (
           <button
             key={tab.id}
@@ -165,7 +165,7 @@ export default function WhoWeServe({ lang }: WhoWeServeProps) {
       </div>
 
       {/* Luxury Bento Grid */}
-      <div className="bento-grid scroll-reveal">
+      <div className="bento-grid">
         {filteredSectors.map((s) => (
           <div
             key={s.id}
@@ -202,7 +202,7 @@ export default function WhoWeServe({ lang }: WhoWeServeProps) {
       </div>
 
       {/* Quick Sector Strip */}
-      <div className="sector-strip-wrap scroll-reveal">
+      <div className="sector-strip-wrap">
         <div className="sector-strip-header">
           <span>{lang === 'ar' ? 'نخدم أكثر من 14 قطاعاً حيوياً في سلطنة عُمان:' : 'Supplying 14+ specialized sectors nationwide:'}</span>
         </div>
