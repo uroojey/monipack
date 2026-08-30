@@ -1613,12 +1613,7 @@ section {
   z-index: 1;
 }
 
-@media (max-width: 900px) {
-  #serve,
-  .bento-serve-section {
-    display: none !important;
-  }
-}
+
 
 .bento-grid {
   display: grid;
